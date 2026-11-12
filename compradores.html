@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta | Sabor Caribeño</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8f1e7;
+  color: #45352c;
+}
+header {
+  background: #a94f32;
+  color: white;
+  text-align: center;
+  padding: 38px 20px;
+}
+header h1 { margin: 0 0 10px; font-size: 32px; }
+header p { margin: 0; }
+main {
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+form {
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px #00000012;
+}
+.intro { line-height: 1.6; }
+.question {
+  border-top: 1px solid #eadfd3;
+  padding: 20px 0;
+}
+.question h3 { font-size: 16px; margin-top: 0; }
+label { display: block; margin: 12px 0; cursor: pointer; }
+input[type="text"], input[type="number"], textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d9c7b8;
+  border-radius: 8px;
+  font-size: 15px;
+}
+textarea { min-height: 90px; resize: vertical; }
+button {
+  width: 100%;
+  padding: 15px;
+  background: #a94f32;
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover { background: #873d27; }
+small { color: #77685e; }
+</style>
+</head>
+<body>
+<header>
+  <h1> Sabor Caribeño</h1>
+  <p>Tu opinión nos ayuda a mejorar</p>
+</header>
+
+<main>
+<form id="encuesta">
+  <h2>Encuesta para compradores</h2>
+  <p class="intro">
+    Queremos conocer tus gustos, hábitos y preferencias
+    sobre la gastronomía del Caribe. Esta encuesta es
+    académica y tus respuestas serán utilizadas para
+    nuestro proyecto de investigación.
+  </p>
+  <p><small>Tiempo estimado: 3 a 5 minutos.</small></p>
+
+  <div class="question">
+    <h3>1. ¿Con qué frecuencia consumes comida típica del Caribe colombiano?</h3>
+    <label><input type="radio" name="frecuencia" value="Todos los días" required> Todos los días</label>
+    <label><input type="radio" name="frecuencia" value="Varias veces por semana"> Varias veces por semana</label>
+    <label><input type="radio" name="frecuencia" value="Una vez por semana"> Una vez por semana</label>
+    <label><input type="radio" name="frecuencia" value="Ocasionalmente"> Ocasionalmente</label>
+    <label><input type="radio" name="frecuencia" value="Casi nunca"> Casi nunca</label>
+  </div>
+
+  <div class="question">
+    <h3>2. ¿Qué platos típicos del Caribe conoces o consumes?</h3>
+    <label><input type="checkbox" name="platos" value="Mote de queso"> Mote de queso</label>
+    <label><input type="checkbox" name="platos" value="Arroz con coco"> Arroz con coco</label>
+    <label><input type="checkbox" name="platos" value="Sancocho"> Sancocho</label>
+    <label><input type="checkbox" name="platos" value="Pescado frito"> Pescado frito</label>
+    <label><input type="checkbox" name="platos" value="Arepa de huevo"> Arepa de huevo</label>
+    <label><input type="checkbox" name="platos" value="Otros"> Otros</label>
+  </div>
+
+  <div class="question">
+    <h3>3. ¿Qué es lo que más valoras al elegir un restaurante de comida típica?</h3>
+    <label><input type="radio" name="valor" value="Sabor" required> El sabor de la comida</label>
+    <label><input type="radio" name="valor" value="Precio"> El precio</label>
+    <label><input type="radio" name="valor" value="Ambiente"> El ambiente del lugar</label>
+    <label><input type="radio" name="valor" value="Tradicion"> La tradición y autenticidad</label>
+    <label><input type="radio" name="valor" value="Servicio"> La atención y el servicio</label>
+  </div>
+
+  <div class="question">
+    <h3>4. ¿Qué importancia tiene para ti que un restaurante conserve la identidad cultural de la región?</h3>
+    <label><input type="radio" name="identidad" value="Muy importante" required> Muy importante</label>
+    <label><input type="radio" name="identidad" value="Importante"> Importante</label>
+    <label><input type="radio" name="identidad" value="Poco importante"> Poco importante</label>
+    <label><input type="radio" name="identidad" value="Nada importante"> Nada importante</label>
+  </div>
+
+  <div class="question">
+    <h3>5. ¿Te gustaría que los restaurantes utilizaran elementos artesanales del Caribe en su presentación de los platos?</h3>
+    <label><input type="radio" name="artesania" value="Sí" required> Sí</label>
+    <label><input type="radio" name="artesania" value="No"> No</label>
+    <label><input type="radio" name="artesania" value="Tal vez"> Tal vez</label>
+  </div>
+
+  <div class="question">
+    <h3>6. ¿Qué elementos artesanales te gustaría encontrar en un restaurante?</h3>
+    <label><input type="checkbox" name="elementos" value="Vajillas artesanales"> Vajillas artesanales</label>
+    <label><input type="checkbox" name="elementos" value="Individuales tejidos"> Individuales tejidos</label>
+    <label><input type="checkbox" name="elementos" value="Vasos de totumo"> Vasos de totumo</label>
+    <label><input type="checkbox" name="elementos" value="Decoracion artesanal"> Decoración artesanal</label>
+    <label><input type="checkbox" name="elementos" value="Mobiliario artesanal"> Mobiliario artesanal</label>
+  </div>
+
+  <div class="question">
+    <h3>7. ¿Qué tan atractiva te parece una experiencia gastronómica que combine comida tradicional y artesanía local?</h3>
+    <label><input type="radio" name="experiencia" value="1" required> 1 - Nada atractiva</label>
+    <label><input type="radio" name="experiencia" value="2"> 2 - Poco atractiva</label>
+    <label><input type="radio" name="experiencia" value="3"> 3 - Neutral</label>
+    <label><input type="radio" name="experiencia" value="4"> 4 - Atractiva</label>
+    <label><input type="radio" name="experiencia" value="5"> 5 - Muy atractiva</label>
+  </div>
+
+  <div class="question">
+    <h3>8. ¿Cuánto estarías dispuesto(a) a pagar adicionalmente por una experiencia gastronómica con elementos artesanales?</h3>
+    <label><input type="radio" name="precio" value="Nada adicional" required> Nada adicional</label>
+    <label><input type="radio" name="precio" value="Entre 5.000 y 10.000 COP"> Entre $5.000 y $10.000 COP</label>
+    <label><input type="radio" name="precio" value="Entre 10.000 y 20.000 COP"> Entre $10.000 y $20.000 COP</label>
+    <label><input type="radio" name="precio" value="Más de 20.000 COP"> Más de $20.000 COP</label>
+  </div>
+
+  <div class="question">
+    <h3>9. ¿Qué tan importante es para ti conocer el origen de los productos artesanales que utiliza un restaurante?</h3>
+    <label><input type="radio" name="origen" value="1" required> 1 - Nada importante</label>
+    <label><input type="radio" name="origen" value="2"> 2 - Poco importante</label>
+    <label><input type="radio" name="origen" value="3"> 3 - Neutral</label>
+    <label><input type="radio" name="origen" value="4"> 4 - Importante</label>
+    <label><input type="radio" name="origen" value="5"> 5 - Muy importante</label>
+  </div>
+
+  <div class="question">
+    <h3>10. ¿Qué mejorarías o agregarías a la experiencia de comer en un restaurante tradicional caribeño?</h3>
+    <textarea name="sugerencias" placeholder="Escribe tu respuesta aquí..."></textarea>
+  </div>
+
+  <button type="submit">Enviar respuestas</button>
+  <p id="mensaje" role="status"></p>
+</form>
+</main>
+
+<script>
+document.getElementById("encuesta").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const datos = new FormData(this);
+  const respuestas = {};
+  for (const [clave, valor] of datos.entries()) {
+    if (respuestas[clave]) {
+      if (!Array.isArray(respuestas[clave])) {
+        respuestas[clave] = [respuestas[clave]];
+      }
+      respuestas[clave].push(valor);
+    } else {
+      respuestas[clave] = valor;
+    }
+  }
+  console.log("Respuestas:", respuestas);
+  document.getElementById("mensaje").textContent =
+    "¡Gracias por participar! Tus respuestas fueron registradas en esta sesión.";
+  this.reset();
+});
+</script>
+</body>
+</html>
