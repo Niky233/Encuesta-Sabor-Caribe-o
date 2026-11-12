@@ -535,11 +535,20 @@ button {
   SABOR CARIBEÑO · CONEXIÓN · GASTRONOMÍA · EXPERIENCIA
 </footer>
 
+
 <script>
-const form = document.getElementById('encuesta');
-const steps = [...document.querySelectorAll('.question-step')];
+const SUPABASE_URL = 'PEGA_AQUI_TU_API_URL';
+const SUPABASE_KEY = 'PEGA_AQUI_TU_PUBLISHABLE_KEY';
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const form = document.getElementById('surveyForm');
+const steps = document.querySelectorAll('.step');
 const progress = document.getElementById('progress');
-const label = document.getElementById('step-label');
+const progressLabel = document.getElementById('progressLabel');
 const percentage = document.getElementById('percentage');
 const back = document.getElementById('back');
 const next = document.getElementById('next');
@@ -548,69 +557,92 @@ const navigation = document.getElementById('navigation');
 let current = 0;
 
 function showStep() {
-  steps.forEach((step, i) => {
-    step.classList.toggle('active', i === current);
+  steps.forEach((step, index) => {
+    step.classList.toggle('active', index === current);
   });
 
   const percent = Math.round(((current + 1) / steps.length) * 100);
 
   progress.style.width = percent + '%';
   percentage.textContent = percent + '%';
+  progressLabel.textContent =
+    `Pregunta ${current + 1} de ${steps.length}`;
 
-  label.textContent =
-    'PREGUNTA ' + String(current + 1).padStart(2, '0') +
-    ' DE ' + steps.length;
-
-  back.disabled = current === 0;
-
-  next.textContent = current === steps.length - 1
-    ? 'Finalizar encuesta ✓'
-    : 'Continuar →';
-
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  back.style.display = current === 0 ? 'none' : 'inline-flex';
+  next.textContent =
+    current === steps.length - 1 ? 'Enviar respuestas' : 'Continuar';
 }
 
-next.addEventListener('click', () => {
-  const required = steps[current].querySelectorAll('[required]');
-  let valid = true;
+function collectAnswers() {
+  const answers = {};
 
-  required.forEach(input => {
-    if (!input.checkValidity()) {
-      input.reportValidity();
-      valid = false;
+  for (const [key, value] of new FormData(form).entries()) {
+    if (answers[key] !== undefined) {
+      if (!Array.isArray(answers[key])) {
+        answers[key] = [answers[key]];
+      }
+      answers[key].push(value);
+    } else {
+      answers[key] = value;
     }
-  });
+  }
 
-  if (!valid) return;
+  return answers;
+}
+
+next.addEventListener('click', async () => {
+  const activeStep = steps[current];
+  const requiredFields = activeStep.querySelectorAll(
+    'input[required], textarea[required], select[required]'
+  );
+
+  for (const field of requiredFields) {
+    if (field.type === 'radio' || field.type === 'checkbox') {
+      const group = activeStep.querySelectorAll(
+        `input[name="${field.name}"]:checked`
+      );
+
+      if (group.length === 0) {
+        alert('Por favor, responde esta pregunta antes de continuar.');
+        return;
+      }
+    } else if (!field.value.trim()) {
+      alert('Por favor, completa esta pregunta antes de continuar.');
+      field.focus();
+      return;
+    }
+  }
 
   if (current < steps.length - 1) {
     current++;
     showStep();
-  } else {
-    const data = new FormData(form);
-    const answers = {};
-
-    for (const [key, value] of data.entries()) {
-      if (answers[key]) {
-        if (!Array.isArray(answers[key])) {
-          answers[key] = [answers[key]];
-        }
-        answers[key].push(value);
-      } else {
-        answers[key] = value;
-      }
-    }
-
-    console.log('Respuestas:', answers);
-
-    form.style.display = 'none';
-    navigation.style.display = 'none';
-    document.getElementById('success').style.display = 'block';
-
-    progress.style.width = '100%';
-    percentage.textContent = '100%';
-    label.textContent = 'ENCUESTA FINALIZADA';
+    return;
   }
+
+  next.disabled = true;
+  next.textContent = 'Enviando...';
+
+  const answers = collectAnswers();
+
+  const { error } = await supabaseClient
+    .from('Sabor Caribeño Encuestas.')
+    .insert([{ respuestas: answers }]);
+
+  if (error) {
+    console.error('Error al guardar:', error);
+    alert('No se pudieron guardar tus respuestas. Inténtalo nuevamente.');
+    next.disabled = false;
+    next.textContent = 'Enviar respuestas';
+    return;
+  }
+
+  form.style.display = 'none';
+  navigation.style.display = 'none';
+
+  document.getElementById('success').style.display = 'block';
+
+  progress.style.width = '100%';
+  percentage.textContent = '100%';
 });
 
 back.addEventListener('click', () => {
