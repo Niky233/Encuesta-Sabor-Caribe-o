@@ -4,189 +4,629 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Encuesta | Sabor Caribeño</title>
+<title>Sabor Caribeño | Encuesta</title>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --cream: #faf6ef;
+  --paper: #fffdf9;
+  --terracotta: #b85e43;
+  --dark: #302d28;
+  --muted: #887d70;
+  --line: #e9dfd3;
+  --green: #667b55;
+}
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f8f1e7;
-  color: #45352c;
+  background: var(--cream);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
 }
-header {
-  background: #a94f32;
-  color: white;
+
+.topbar {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7%;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+
+.brand span { color: var(--terracotta); }
+
+.top-note {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero {
+  max-width: 1050px;
+  margin: 45px auto 30px;
+  padding: 0 25px;
+  display: grid;
+  grid-template-columns: 1fr 210px;
+  gap: 35px;
+  align-items: center;
+}
+
+.eyebrow {
+  color: var(--terracotta);
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(35px, 5vw, 55px);
+  line-height: 1.12;
+  font-weight: 600;
+  margin: 13px 0;
+  max-width: 650px;
+}
+
+.hero h1 em {
+  color: var(--terracotta);
+  font-weight: 500;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 570px;
+}
+
+.stamp {
+  border: 1px solid #d9c7b4;
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 38px 20px;
+  color: var(--terracotta);
+  transform: rotate(7deg);
+  justify-self: center;
 }
-header h1 { margin: 0 0 10px; font-size: 32px; }
-header p { margin: 0; }
+
+.stamp strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+}
+
+.stamp span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
 main {
-  max-width: 720px;
-  margin: 30px auto;
-  padding: 0 16px;
+  max-width: 780px;
+  margin: 0 auto 65px;
+  padding: 0 20px;
 }
-form {
+
+.survey-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 35px 42px;
+  box-shadow: 0 12px 35px #51402b0b;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.progress-top strong {
+  color: var(--terracotta);
+}
+
+.progress-track {
+  height: 5px;
+  border-radius: 20px;
+  background: #eee7de;
+  overflow: hidden;
+  margin-bottom: 35px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 10%;
+  background: var(--terracotta);
+  border-radius: 20px;
+  transition: width .3s ease;
+}
+
+.question-number {
+  color: var(--terracotta);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.question h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 12px 0 10px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 24px;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 17px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .2s;
   background: white;
-  padding: 28px;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px #00000012;
 }
-.intro { line-height: 1.6; }
-.question {
-  border-top: 1px solid #eadfd3;
-  padding: 20px 0;
+
+.option:hover {
+  border-color: var(--terracotta);
+  background: #fcf6f0;
 }
-.question h3 { font-size: 16px; margin-top: 0; }
-label { display: block; margin: 12px 0; cursor: pointer; }
-input[type="text"], input[type="number"], textarea, select {
+
+.option:has(input:checked) {
+  border-color: var(--terracotta);
+  background: #f9eee7;
+  color: #85432f;
+}
+
+.option input {
+  accent-color: var(--terracotta);
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+textarea {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #d9c7b8;
-  border-radius: 8px;
-  font-size: 15px;
+  min-height: 125px;
+  padding: 16px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
 }
-textarea { min-height: 90px; resize: vertical; }
+
+textarea:focus {
+  border-color: var(--terracotta);
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
 button {
-  width: 100%;
-  padding: 15px;
-  background: #a94f32;
-  color: white;
-  border: 0;
-  border-radius: 9px;
-  font-size: 16px;
-  font-weight: bold;
+  font-family: inherit;
   cursor: pointer;
 }
-button:hover { background: #873d27; }
-small { color: #77685e; }
+
+.next-btn, .back-btn {
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.next-btn {
+  background: var(--terracotta);
+  color: white;
+  border: 1px solid var(--terracotta);
+  min-width: 150px;
+}
+
+.next-btn:hover { background: #974b35; }
+
+.back-btn {
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+
+.back-btn:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.next-btn:disabled { opacity: .6; }
+
+.question-step { display: none; }
+.question-step.active { display: block; }
+
+.footer {
+  text-align: center;
+  padding: 22px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.success {
+  text-align: center;
+  padding: 35px 5px;
+  display: none;
+}
+
+.success .flower {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.success h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+}
+
+.success p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+@media(max-width: 600px) {
+  .topbar { padding: 0 20px; }
+  .top-note { font-size: 9px; }
+  .hero {
+    grid-template-columns: 1fr;
+    margin-top: 35px;
+    gap: 10px;
+  }
+  .stamp { display: none; }
+  .survey-card { padding: 25px 19px; }
+  .question h2 { font-size: 23px; }
+  .next-btn, .back-btn { padding: 13px 16px; }
+}
 </style>
 </head>
+
 <body>
-<header>
-  <h1> Sabor Caribeño</h1>
-  <p>Tu opinión nos ayuda a mejorar</p>
-</header>
+
+<nav class="topbar">
+  <div class="brand">SABOR <span>CARIBEÑO.</span></div>
+  <div class="top-note">Investigación gastronómica</div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Una experiencia de nuestra región</div>
+    <h1>Los sabores que <em>nos unen.</em></h1>
+    <p>
+      Queremos conocer lo que piensas sobre nuestra gastronomía,
+      nuestras tradiciones y la artesanía del Caribe colombiano.
+      Tu opinión hace parte de esta investigación.
+    </p>
+  </div>
+
+  <div class="stamp">
+    <strong>10</strong>
+    <span>Preguntas</span>
+    <span>3–5 minutos</span>
+  </div>
+</section>
 
 <main>
+<div class="survey-card">
+
 <form id="encuesta">
-  <h2>Encuesta para compradores</h2>
-  <p class="intro">
-    Queremos conocer tus gustos, hábitos y preferencias
-    sobre la gastronomía del Caribe. Esta encuesta es
-    académica y tus respuestas serán utilizadas para
-    nuestro proyecto de investigación.
-  </p>
-  <p><small>Tiempo estimado: 3 a 5 minutos.</small></p>
 
+<div class="progress-top">
+  <span id="step-label">PREGUNTA 01 DE 10</span>
+  <strong id="percentage">10%</strong>
+</div>
+
+<div class="progress-track">
+  <div class="progress-fill" id="progress"></div>
+</div>
+
+<!-- PREGUNTA 1 -->
+<section class="question-step active">
+  <div class="question-number">01 / Hábitos de consumo</div>
   <div class="question">
-    <h3>1. ¿Con qué frecuencia consumes comida típica del Caribe colombiano?</h3>
-    <label><input type="radio" name="frecuencia" value="Todos los días" required> Todos los días</label>
-    <label><input type="radio" name="frecuencia" value="Varias veces por semana"> Varias veces por semana</label>
-    <label><input type="radio" name="frecuencia" value="Una vez por semana"> Una vez por semana</label>
-    <label><input type="radio" name="frecuencia" value="Ocasionalmente"> Ocasionalmente</label>
-    <label><input type="radio" name="frecuencia" value="Casi nunca"> Casi nunca</label>
+    <h2>¿Con qué frecuencia consumes comida típica del Caribe colombiano?</h2>
+    <p class="hint">Selecciona una opción.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="frecuencia" value="Todos los días" required> Todos los días</label>
+      <label class="option"><input type="radio" name="frecuencia" value="Varias veces por semana"> Varias veces por semana</label>
+      <label class="option"><input type="radio" name="frecuencia" value="Una vez por semana"> Una vez por semana</label>
+      <label class="option"><input type="radio" name="frecuencia" value="Ocasionalmente"> Ocasionalmente</label>
+      <label class="option"><input type="radio" name="frecuencia" value="Casi nunca"> Casi nunca</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 2 -->
+<section class="question-step">
+  <div class="question-number">02 / Gastronomía</div>
   <div class="question">
-    <h3>2. ¿Qué platos típicos del Caribe conoces o consumes?</h3>
-    <label><input type="checkbox" name="platos" value="Mote de queso"> Mote de queso</label>
-    <label><input type="checkbox" name="platos" value="Arroz con coco"> Arroz con coco</label>
-    <label><input type="checkbox" name="platos" value="Sancocho"> Sancocho</label>
-    <label><input type="checkbox" name="platos" value="Pescado frito"> Pescado frito</label>
-    <label><input type="checkbox" name="platos" value="Arepa de huevo"> Arepa de huevo</label>
-    <label><input type="checkbox" name="platos" value="Otros"> Otros</label>
+    <h2>¿Qué platos típicos del Caribe conoces o consumes?</h2>
+    <p class="hint">Puedes seleccionar varias opciones.</p>
+    <div class="options">
+      <label class="option"><input type="checkbox" name="platos" value="Mote de queso"> Mote de queso</label>
+      <label class="option"><input type="checkbox" name="platos" value="Arroz con coco"> Arroz con coco</label>
+      <label class="option"><input type="checkbox" name="platos" value="Sancocho"> Sancocho</label>
+      <label class="option"><input type="checkbox" name="platos" value="Pescado frito"> Pescado frito</label>
+      <label class="option"><input type="checkbox" name="platos" value="Arepa de huevo"> Arepa de huevo</label>
+      <label class="option"><input type="checkbox" name="platos" value="Otros"> Otros</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 3 -->
+<section class="question-step">
+  <div class="question-number">03 / Preferencias</div>
   <div class="question">
-    <h3>3. ¿Qué es lo que más valoras al elegir un restaurante de comida típica?</h3>
-    <label><input type="radio" name="valor" value="Sabor" required> El sabor de la comida</label>
-    <label><input type="radio" name="valor" value="Precio"> El precio</label>
-    <label><input type="radio" name="valor" value="Ambiente"> El ambiente del lugar</label>
-    <label><input type="radio" name="valor" value="Tradicion"> La tradición y autenticidad</label>
-    <label><input type="radio" name="valor" value="Servicio"> La atención y el servicio</label>
+    <h2>¿Qué es lo que más valoras al elegir un restaurante de comida típica?</h2>
+    <p class="hint">Selecciona una opción.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="valor" value="Sabor" required> El sabor de la comida</label>
+      <label class="option"><input type="radio" name="valor" value="Precio"> El precio</label>
+      <label class="option"><input type="radio" name="valor" value="Ambiente"> El ambiente del lugar</label>
+      <label class="option"><input type="radio" name="valor" value="Tradición"> La tradición y autenticidad</label>
+      <label class="option"><input type="radio" name="valor" value="Servicio"> La atención y el servicio</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 4 -->
+<section class="question-step">
+  <div class="question-number">04 / Identidad cultural</div>
   <div class="question">
-    <h3>4. ¿Qué importancia tiene para ti que un restaurante conserve la identidad cultural de la región?</h3>
-    <label><input type="radio" name="identidad" value="Muy importante" required> Muy importante</label>
-    <label><input type="radio" name="identidad" value="Importante"> Importante</label>
-    <label><input type="radio" name="identidad" value="Poco importante"> Poco importante</label>
-    <label><input type="radio" name="identidad" value="Nada importante"> Nada importante</label>
+    <h2>¿Qué importancia tiene para ti que un restaurante conserve la identidad cultural de la región?</h2>
+    <p class="hint">Selecciona una opción.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="identidad" value="Muy importante" required> Muy importante</label>
+      <label class="option"><input type="radio" name="identidad" value="Importante"> Importante</label>
+      <label class="option"><input type="radio" name="identidad" value="Poco importante"> Poco importante</label>
+      <label class="option"><input type="radio" name="identidad" value="Nada importante"> Nada importante</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 5 -->
+<section class="question-step">
+  <div class="question-number">05 / Artesanía local</div>
   <div class="question">
-    <h3>5. ¿Te gustaría que los restaurantes utilizaran elementos artesanales del Caribe en su presentación de los platos?</h3>
-    <label><input type="radio" name="artesania" value="Sí" required> Sí</label>
-    <label><input type="radio" name="artesania" value="No"> No</label>
-    <label><input type="radio" name="artesania" value="Tal vez"> Tal vez</label>
+    <h2>¿Te gustaría que los restaurantes utilizaran elementos artesanales del Caribe en la presentación de sus platos?</h2>
+    <p class="hint">Selecciona una opción.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="artesania" value="Sí" required> Sí</label>
+      <label class="option"><input type="radio" name="artesania" value="No"> No</label>
+      <label class="option"><input type="radio" name="artesania" value="Tal vez"> Tal vez</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 6 -->
+<section class="question-step">
+  <div class="question-number">06 / Elementos artesanales</div>
   <div class="question">
-    <h3>6. ¿Qué elementos artesanales te gustaría encontrar en un restaurante?</h3>
-    <label><input type="checkbox" name="elementos" value="Vajillas artesanales"> Vajillas artesanales</label>
-    <label><input type="checkbox" name="elementos" value="Individuales tejidos"> Individuales tejidos</label>
-    <label><input type="checkbox" name="elementos" value="Vasos de totumo"> Vasos de totumo</label>
-    <label><input type="checkbox" name="elementos" value="Decoracion artesanal"> Decoración artesanal</label>
-    <label><input type="checkbox" name="elementos" value="Mobiliario artesanal"> Mobiliario artesanal</label>
+    <h2>¿Qué elementos artesanales te gustaría encontrar en un restaurante?</h2>
+    <p class="hint">Puedes seleccionar varias opciones.</p>
+    <div class="options">
+      <label class="option"><input type="checkbox" name="elementos" value="Vajillas artesanales"> Vajillas artesanales</label>
+      <label class="option"><input type="checkbox" name="elementos" value="Individuales tejidos"> Individuales tejidos</label>
+      <label class="option"><input type="checkbox" name="elementos" value="Vasos de totumo"> Vasos de totumo</label>
+      <label class="option"><input type="checkbox" name="elementos" value="Decoración artesanal"> Decoración artesanal</label>
+      <label class="option"><input type="checkbox" name="elementos" value="Mobiliario artesanal"> Mobiliario artesanal</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 7 -->
+<section class="question-step">
+  <div class="question-number">07 / Experiencia gastronómica</div>
   <div class="question">
-    <h3>7. ¿Qué tan atractiva te parece una experiencia gastronómica que combine comida tradicional y artesanía local?</h3>
-    <label><input type="radio" name="experiencia" value="1" required> 1 - Nada atractiva</label>
-    <label><input type="radio" name="experiencia" value="2"> 2 - Poco atractiva</label>
-    <label><input type="radio" name="experiencia" value="3"> 3 - Neutral</label>
-    <label><input type="radio" name="experiencia" value="4"> 4 - Atractiva</label>
-    <label><input type="radio" name="experiencia" value="5"> 5 - Muy atractiva</label>
+    <h2>¿Qué tan atractiva te parece una experiencia gastronómica que combine comida tradicional y artesanía local?</h2>
+    <p class="hint">Califica tu interés del 1 al 5.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="experiencia" value="1" required> 1 — Nada atractiva</label>
+      <label class="option"><input type="radio" name="experiencia" value="2"> 2 — Poco atractiva</label>
+      <label class="option"><input type="radio" name="experiencia" value="3"> 3 — Neutral</label>
+      <label class="option"><input type="radio" name="experiencia" value="4"> 4 — Atractiva</label>
+      <label class="option"><input type="radio" name="experiencia" value="5"> 5 — Muy atractiva</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 8 -->
+<section class="question-step">
+  <div class="question-number">08 / Disposición de compra</div>
   <div class="question">
-    <h3>8. ¿Cuánto estarías dispuesto(a) a pagar adicionalmente por una experiencia gastronómica con elementos artesanales?</h3>
-    <label><input type="radio" name="precio" value="Nada adicional" required> Nada adicional</label>
-    <label><input type="radio" name="precio" value="Entre 5.000 y 10.000 COP"> Entre $5.000 y $10.000 COP</label>
-    <label><input type="radio" name="precio" value="Entre 10.000 y 20.000 COP"> Entre $10.000 y $20.000 COP</label>
-    <label><input type="radio" name="precio" value="Más de 20.000 COP"> Más de $20.000 COP</label>
+    <h2>¿Cuánto estarías dispuesto(a) a pagar adicionalmente por una experiencia gastronómica con elementos artesanales?</h2>
+    <p class="hint">Selecciona una opción.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="precio" value="Nada adicional" required> Nada adicional</label>
+      <label class="option"><input type="radio" name="precio" value="Entre 5.000 y 10.000 COP"> Entre $5.000 y $10.000 COP</label>
+      <label class="option"><input type="radio" name="precio" value="Entre 10.000 y 20.000 COP"> Entre $10.000 y $20.000 COP</label>
+      <label class="option"><input type="radio" name="precio" value="Más de 20.000 COP"> Más de $20.000 COP</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 9 -->
+<section class="question-step">
+  <div class="question-number">09 / Origen artesanal</div>
   <div class="question">
-    <h3>9. ¿Qué tan importante es para ti conocer el origen de los productos artesanales que utiliza un restaurante?</h3>
-    <label><input type="radio" name="origen" value="1" required> 1 - Nada importante</label>
-    <label><input type="radio" name="origen" value="2"> 2 - Poco importante</label>
-    <label><input type="radio" name="origen" value="3"> 3 - Neutral</label>
-    <label><input type="radio" name="origen" value="4"> 4 - Importante</label>
-    <label><input type="radio" name="origen" value="5"> 5 - Muy importante</label>
+    <h2>¿Qué tan importante es para ti conocer el origen de los productos artesanales que utiliza un restaurante?</h2>
+    <p class="hint">Califica su importancia del 1 al 5.</p>
+    <div class="options">
+      <label class="option"><input type="radio" name="origen" value="1" required> 1 — Nada importante</label>
+      <label class="option"><input type="radio" name="origen" value="2"> 2 — Poco importante</label>
+      <label class="option"><input type="radio" name="origen" value="3"> 3 — Neutral</label>
+      <label class="option"><input type="radio" name="origen" value="4"> 4 — Importante</label>
+      <label class="option"><input type="radio" name="origen" value="5"> 5 — Muy importante</label>
+    </div>
   </div>
+</section>
 
+<!-- PREGUNTA 10 -->
+<section class="question-step">
+  <div class="question-number">10 / Tu opinión</div>
   <div class="question">
-    <h3>10. ¿Qué mejorarías o agregarías a la experiencia de comer en un restaurante tradicional caribeño?</h3>
+    <h2>¿Qué mejorarías o agregarías a la experiencia de comer en un restaurante tradicional caribeño?</h2>
+    <p class="hint">Esta pregunta es abierta. Comparte tus ideas.</p>
     <textarea name="sugerencias" placeholder="Escribe tu respuesta aquí..."></textarea>
   </div>
+</section>
 
-  <button type="submit">Enviar respuestas</button>
-  <p id="mensaje" role="status"></p>
+<div class="nav-buttons" id="navigation">
+  <button type="button" class="back-btn" id="back" disabled>← Anterior</button>
+  <button type="button" class="next-btn" id="next">Continuar →</button>
+</div>
+
 </form>
+
+<div class="success" id="success">
+  <div class="flower">🌺</div>
+  <div class="eyebrow">Sabor Caribeño</div>
+  <h2>¡Gracias por compartir!</h2>
+  <p>
+    Tu opinión es una parte importante de esta investigación.
+    Gracias por ayudarnos a valorar los sabores y las tradiciones
+    de nuestra región.
+  </p>
+</div>
+
+</div>
 </main>
 
+<footer class="footer">
+  SABOR CARIBEÑO · IDENTIDAD · TRADICIÓN · CULTURA
+</footer>
+
 <script>
-document.getElementById("encuesta").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const datos = new FormData(this);
-  const respuestas = {};
-  for (const [clave, valor] of datos.entries()) {
-    if (respuestas[clave]) {
-      if (!Array.isArray(respuestas[clave])) {
-        respuestas[clave] = [respuestas[clave]];
-      }
-      respuestas[clave].push(valor);
-    } else {
-      respuestas[clave] = valor;
+const form = document.getElementById('encuesta');
+const steps = [...document.querySelectorAll('.question-step')];
+const progress = document.getElementById('progress');
+const label = document.getElementById('step-label');
+const percentage = document.getElementById('percentage');
+const back = document.getElementById('back');
+const next = document.getElementById('next');
+const navigation = document.getElementById('navigation');
+
+let current = 0;
+
+function showStep() {
+  steps.forEach((step, i) => {
+    step.classList.toggle('active', i === current);
+  });
+
+  const percent = Math.round(((current + 1) / steps.length) * 100);
+  progress.style.width = percent + '%';
+  percentage.textContent = percent + '%';
+  label.textContent =
+    'PREGUNTA ' + String(current + 1).padStart(2, '0') +
+    ' DE ' + steps.length;
+
+  back.disabled = current === 0;
+  next.textContent = current === steps.length - 1
+    ? 'Finalizar encuesta ✓'
+    : 'Continuar →';
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+next.addEventListener('click', () => {
+  const required = steps[current].querySelectorAll('[required]');
+  let valid = true;
+
+  required.forEach(input => {
+    if (!input.checkValidity()) {
+      input.reportValidity();
+      valid = false;
     }
+  });
+
+  if (!valid) return;
+
+  if (current < steps.length - 1) {
+    current++;
+    showStep();
+  } else {
+    const data = new FormData(form);
+    const answers = {};
+
+    for (const [key, value] of data.entries()) {
+      if (answers[key]) {
+        if (!Array.isArray(answers[key])) {
+          answers[key] = [answers[key]];
+        }
+        answers[key].push(value);
+      } else {
+        answers[key] = value;
+      }
+    }
+
+    console.log('Respuestas:', answers);
+
+    form.style.display = 'none';
+    navigation.style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    progress.style.width = '100%';
+    percentage.textContent = '100%';
+    label.textContent = 'ENCUESTA FINALIZADA';
   }
-  console.log("Respuestas:", respuestas);
-  document.getElementById("mensaje").textContent =
-    "¡Gracias por participar! Tus respuestas fueron registradas en esta sesión.";
-  this.reset();
 });
+
+back.addEventListener('click', () => {
+  if (current > 0) {
+    current--;
+    showStep();
+  }
+});
+
+showStep();
 </script>
+
 </body>
 </html>
