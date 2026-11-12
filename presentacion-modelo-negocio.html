@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabor Caribeño | Modelo de negocio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap');
+:root{--cream:#f6f0e5;--paper:#fffaf1;--green:#244b3b;--green2:#3e7056;--coral:#df755c;--gold:#d4a65a;--ink:#24352c;--muted:#6e786f;--line:#ded7c9}
+*{box-sizing:border-box}body{margin:0;background:#1e3028;color:var(--ink);font-family:'DM Sans',sans-serif}
+.deck{width:min(100vw,1600px);height:min(100vh,900px);min-height:620px;margin:auto;background:var(--cream);position:relative;overflow:hidden}
+.slide{display:none;height:100%;padding:6.5% 8%;position:relative;overflow:auto}.slide.active{display:flex;flex-direction:column}
+.slide:after{content:'SABOR CARIBEÑO';position:absolute;right:4%;bottom:3%;font-size:10px;letter-spacing:.22em;color:#9a9c8e}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);margin-bottom:18px}
+h1,h2,h3{font-family:'Playfair Display',serif;margin:0;color:var(--green)}
+h1{font-size:clamp(52px,7vw,104px);line-height:.98;max-width:850px}h2{font-size:clamp(34px,4.4vw,62px);line-height:1.04;margin-bottom:25px}h3{font-size:23px;margin-bottom:10px}
+p{font-size:clamp(15px,1.35vw,20px);line-height:1.55;margin:0 0 14px}.lead{font-size:clamp(20px,2vw,29px);max-width:850px;color:#52645a}
+.small{font-size:13px;color:var(--muted)}.accent{color:var(--coral)}.green{color:var(--green)}
+.cover{background:var(--green);color:var(--cream);justify-content:center}.cover h1,.cover h2{color:var(--cream)}.cover .kicker{color:#e7b86e}.cover .lead{color:#e6e2d6}.cover:before{content:'';position:absolute;width:520px;height:520px;border:1px solid #78917d;border-radius:50%;right:-80px;top:-100px;box-shadow:0 0 0 35px #ffffff08,0 0 0 85px #ffffff06}
+.cover:after{color:#c2cbbd}.cover .tag{margin-top:36px;border:1px solid #a4b4a6;padding:12px 18px;border-radius:30px;width:max-content;font-size:12px;letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;min-height:130px}.card p{font-size:15px;margin:0;color:#56645b}.num{font-family:'Playfair Display';font-size:34px;color:var(--coral);margin-bottom:7px}
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:45px;align-items:center;flex:1}.quote{font-family:'Playfair Display';font-size:clamp(27px,3.2vw,46px);line-height:1.18;color:var(--green);border-left:5px solid var(--coral);padding-left:25px}
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.pill{background:#e7e4d7;color:var(--green);padding:9px 14px;border-radius:30px;font-size:13px;font-weight:700}
+.canvas{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:8px;flex:1;min-height:390px}.block{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px;overflow:auto}.block h3{font-family:'DM Sans';font-size:14px;color:var(--coral);text-transform:uppercase;letter-spacing:.04em}.block p,.block li{font-size:12px;line-height:1.4}.block ul{padding-left:17px;margin:5px 0}.partners{grid-column:1;grid-row:1}.activities{grid-column:2;grid-row:1}.value{grid-column:3;grid-row:1 / span 2;background:#e5eadf}.relations{grid-column:4;grid-row:1}.segments{grid-column:5;grid-row:1}.resources{grid-column:2;grid-row:2}.channels{grid-column:4;grid-row:2}.costs{grid-column:1 / span 2;grid-row:2}.revenue{grid-column:4 / span 2;grid-row:2}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:25px}.step{border-top:3px solid var(--coral);padding:16px 10px 0}.step b{display:block;color:var(--green);font-size:16px;margin-bottom:8px}.step span{font-size:13px;color:var(--muted);line-height:1.4}
+.footer{margin-top:auto;padding-top:20px;color:#899187;font-size:11px}
+.controls{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:#20382d;color:white;padding:8px 13px;border-radius:30px;z-index:10}
+.controls button{background:transparent;color:white;border:0;font-size:20px;cursor:pointer;padding:3px 8px}.controls button:disabled{opacity:.3;cursor:default}.counter{font-size:12px;min-width:48px;text-align:center}
+.progress{position:absolute;bottom:0;left:0;height:4px;background:var(--coral);width:0;transition:width .25s}
+@media(max-width:760px){.deck{height:100vh;min-height:600px}.slide{padding:10% 7% 90px}.grid,.grid.three,.split{grid-template-columns:1fr}.canvas{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;min-height:0}.block,.partners,.activities,.value,.relations,.segments,.resources,.channels,.costs,.revenue{grid-column:auto;grid-row:auto}.steps{grid-template-columns:repeat(2,1fr)}.slide:after{display:none}}
+@media print{body{background:white}.deck{width:100%;height:auto;overflow:visible}.slide{display:flex!important;height:100vh;page-break-after:always}.controls,.progress{display:none}}
+</style>
+</head>
+<body>
+<main class="deck" id="deck">
+<section class="slide cover active">
+<div class="kicker">Presentación · Modelo de negocio</div>
+<h1>Sabor<br><span style="color:#e5b66e">Caribeño</span></h1>
+<p class="lead">Una plataforma para descubrir talento culinario y conectar a las personas con experiencias gastronómicas del Caribe.</p>
+<div class="tag">PROPUESTA DE NEGOCIO · 2026</div>
+</section>
+
+<section class="slide">
+<div class="kicker">01 · La oportunidad</div><h2>La experiencia gastronómica empieza con encontrar a la persona indicada.</h2>
+<div class="split"><div><p>Encontrar un chef, conocer qué prepara, revisar su disponibilidad y coordinar una experiencia puede requerir búsquedas dispersas y conversaciones por distintos canales.</p><p>Sabor Caribeño propone reunir ese recorrido en un solo espacio digital, haciendo más fácil descubrir opciones y contactar talento culinario.</p></div><div class="quote">“Descubrir quién puede preparar lo que se te antoja, dónde y cuándo lo necesitas.”</div></div>
+<div class="footer">Planteamiento del problema: hipótesis inicial por validar con entrevistas y encuestas.</div>
+</section>
+
+<section class="slide">
+<div class="kicker">02 · Público objetivo</div><h2>Dos lados, una misma conexión.</h2>
+<div class="grid">
+<div class="card"><div class="num">01</div><h3>Clientes / comensales</h3><p>Personas que buscan opciones gastronómicas, quieren descubrir chefs y consultar platos, perfiles y disponibilidad antes de reservar.</p><div class="pills"><span class="pill">Descubrir</span><span class="pill">Comparar</span><span class="pill">Reservar</span></div></div>
+<div class="card"><div class="num">02</div><h3>Chefs</h3><p>Profesionales o talentos culinarios que quieren mostrar su propuesta, compartir sus platos y recibir oportunidades de contacto y reservas.</p><div class="pills"><span class="pill">Visibilidad</span><span class="pill">Perfil</span><span class="pill">Oportunidades</span></div></div>
+</div><div class="footer">Segmentos iniciales propuestos. Las entrevistas ayudarán a precisar perfiles y prioridades.</div>
+</section>
+
+<section class="slide">
+<div class="kicker">03 · La solución</div><h2>Un recorrido simple para encontrar y reservar.</h2>
+<div class="steps">
+<div class="step"><b>01 · Explorar</b><span>Buscar chefs por nombre, plato o ciudad.</span></div>
+<div class="step"><b>02 · Conocer</b><span>Revisar perfiles, propuesta culinaria y detalles disponibles.</span></div>
+<div class="step"><b>03 · Consultar</b><span>Verificar disponibilidad y opciones para una experiencia.</span></div>
+<div class="step"><b>04 · Reservar</b><span>Enviar una solicitud y hacer seguimiento del proceso.</span></div>
+</div>
+<div class="card" style="margin-top:28px;background:#e5eadf"><h3>Beneficio central</h3><p>Reducir la fricción entre descubrir una propuesta culinaria y dar el siguiente paso para vivirla.</p></div>
+</section>
+
+<section class="slide">
+<div class="kicker">04 · Propuesta de valor</div><h2>¿Por qué Sabor Caribeño?</h2>
+<div class="grid three">
+<div class="card"><h3>Para clientes</h3><p>Más facilidad para descubrir chefs y propuestas gastronómicas en un solo lugar.</p></div>
+<div class="card"><h3>Para chefs</h3><p>Un espacio para presentar su trabajo, ganar visibilidad y conectar con potenciales clientes.</p></div>
+<div class="card"><h3>Para el ecosistema</h3><p>Una vitrina digital que puede acercar la oferta culinaria local a nuevas audiencias.</p></div>
+</div><p class="small" style="margin-top:18px">La diferenciación concreta —por ejemplo, alcance geográfico, tipos de experiencia o atributos culturales— debe validarse con usuarios y oferta disponible.</p>
+</section>
+
+<section class="slide">
+<div class="kicker">05 · Modelo de negocio</div><h2>Business Model Canvas</h2>
+<div class="canvas">
+<div class="block partners"><h3>Socios clave</h3><ul><li>Chefs y cocineros</li><li>Aliados gastronómicos</li><li>Proveedores de pagos y tecnología</li></ul></div>
+<div class="block activities"><h3>Actividades clave</h3><ul><li>Gestionar perfiles</li><li>Facilitar búsquedas y reservas</li><li>Promoción y soporte</li></ul></div>
+<div class="block value"><h3>Propuesta de valor</h3><p>Conectar clientes con chefs mediante una plataforma para explorar propuestas, consultar disponibilidad y solicitar reservas.</p><p>Dar visibilidad digital al talento culinario.</p></div>
+<div class="block relations"><h3>Relación con clientes</h3><ul><li>Experiencia autogestionada</li><li>Confirmaciones y seguimiento</li><li>Atención y retroalimentación</li></ul></div>
+<div class="block segments"><h3>Segmentos</h3><ul><li>Clientes / comensales</li><li>Chefs</li></ul></div>
+<div class="block costs"><h3>Estructura de costos</h3><ul><li>Desarrollo y mantenimiento web</li><li>Dominio, alojamiento y herramientas</li><li>Marketing, operación y soporte</li></ul></div>
+<div class="block resources"><h3>Recursos clave</h3><ul><li>Plataforma digital</li><li>Base de chefs y contenido</li><li>Marca y comunidad</li></ul></div>
+<div class="block channels"><h3>Canales</h3><ul><li>Sitio web</li><li>Redes sociales</li><li>Recomendaciones y alianzas</li></ul></div>
+<div class="block revenue"><h3>Fuentes de ingresos · hipótesis</h3><ul><li>Comisión por reserva concretada</li><li>Planes de visibilidad para chefs</li><li>Servicios promocionales opcionales</li></ul></div>
+</div>
+<div class="footer">Los ingresos son alternativas por validar; no representan tarifas ni acuerdos ya establecidos.</div>
+</section>
+
+<section class="slide">
+<div class="kicker">06 · Canales y relación</div><h2>Cómo llega el servicio a las personas.</h2>
+<div class="grid">
+<div class="card"><h3>Canales de adquisición</h3><p>Sitio web como punto principal; redes sociales para mostrar chefs y platos; alianzas y recomendaciones para ampliar el alcance.</p></div>
+<div class="card"><h3>Relación y confianza</h3><p>Perfiles claros, información actualizada, comunicación de solicitudes y confirmaciones, seguimiento y mecanismos para compartir comentarios.</p></div>
+<div class="card"><h3>Experiencia del cliente</h3><p>Buscar, filtrar, explorar perfiles y solicitar una reserva sin tener que comenzar desde cero en cada canal.</p></div>
+<div class="card"><h3>Experiencia del chef</h3><p>Presentar su oferta, mantener su disponibilidad y recibir solicitudes de potenciales clientes.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="kicker">07 · Ingresos y costos</div><h2>Cómo podría sostenerse el proyecto.</h2>
+<div class="split">
+<div><h3>Ingresos posibles</h3><ul><li>Comisión por reservas efectivamente realizadas.</li><li>Suscripción opcional para herramientas o mayor visibilidad.</li><li>Promociones destacadas claramente identificadas.</li></ul><p class="small">Elegir el mecanismo después de validar disposición de pago y costos de operación.</p></div>
+<div><h3>Costos principales</h3><ul><li>Diseño, desarrollo y mantenimiento de la plataforma.</li><li>Infraestructura digital y servicios de terceros.</li><li>Captación de chefs y clientes.</li><li>Atención, moderación y soporte.</li></ul><p class="small">Al inicio conviene mantener una operación ligera y medir el costo real por reserva.</p></div>
+</div>
+</section>
+
+<section class="slide">
+<div class="kicker">08 · MVP</div><h2>Probar lo esencial antes de escalar.</h2>
+<p class="lead">El producto mínimo viable debe comprobar si clientes y chefs encuentran valor en conectarse a través de la plataforma.</p>
+<div class="grid three">
+<div class="card"><div class="num">01</div><h3>Descubrimiento</h3><p>Búsqueda de chefs por nombre, plato o ciudad.</p></div>
+<div class="card"><div class="num">02</div><h3>Información</h3><p>Perfiles de chefs y presentación de su propuesta culinaria.</p></div>
+<div class="card"><div class="num">03</div><h3>Conversión</h3><p>Consulta de disponibilidad, solicitud de reserva y seguimiento.</p></div>
+</div>
+<div class="footer">Mostrar en vivo el flujo disponible en la demo. Diferenciar funciones implementadas de funciones planeadas.</div>
+</section>
+
+<section class="slide">
+<div class="kicker">09 · Validación</div><h2>Escuchar antes de decidir.</h2>
+<div class="split"><div><p>Las entrevistas y encuestas en curso permitirán comprobar si el problema existe, qué funciones son prioritarias y qué condiciones generan confianza para usar la plataforma.</p><p>La validación debe considerar tanto a clientes como a chefs: ambos son necesarios para que el modelo funcione.</p></div><div class="card"><h3>Qué vamos a medir</h3><ul><li>Frecuencia y dificultad para encontrar chefs.</li><li>Funciones que generan más interés.</li><li>Intuitividad del MVP.</li><li>Confianza para solicitar una reserva.</li><li>Disposición de chefs a participar.</li><li>Disposición de pago y modelo preferido.</li></ul></div></div>
+</section>
+
+<section class="slide">
+<div class="kicker">10 · Indicadores</div><h2>Cómo sabremos si funciona.</h2>
+<div class="grid three">
+<div class="card"><h3>Oferta</h3><p>Chefs registrados, perfiles completos y disponibilidad actualizada.</p></div>
+<div class="card"><h3>Demanda</h3><p>Visitantes, búsquedas realizadas y perfiles consultados.</p></div>
+<div class="card"><h3>Conversión</h3><p>Solicitudes de reserva, reservas confirmadas y tasa de finalización.</p></div>
+<div class="card"><h3>Experiencia</h3><p>Facilidad de uso, satisfacción y motivos de abandono.</p></div>
+<div class="card"><h3>Retención</h3><p>Usuarios que regresan y chefs que continúan activos.</p></div>
+<div class="card"><h3>Economía</h3><p>Ingresos por reserva, costos operativos y margen de contribución.</p></div>
+</div><div class="footer">Definir metas numéricas después de obtener una línea base con el piloto.</div>
+</section>
+
+<section class="slide">
+<div class="kicker">11 · Próximos pasos</div><h2>De la hipótesis a un modelo validado.</h2>
+<div class="steps">
+<div class="step"><b>01 · Completar validación</b><span>Recoger y organizar entrevistas y encuestas.</span></div>
+<div class="step"><b>02 · Ajustar propuesta</b><span>Priorizar necesidades reales de clientes y chefs.</span></div>
+<div class="step"><b>03 · Probar el MVP</b><span>Observar búsquedas y solicitudes de reserva reales o piloto.</span></div>
+<div class="step"><b>04 · Evaluar sostenibilidad</b><span>Validar disposición de pago, costos y modelo de ingresos.</span></div>
+</div>
+<div class="card" style="margin-top:30px;background:#e5eadf"><h3>Decisión clave</h3><p>Empezar con una zona y una oferta de chefs manejable, aprender del uso real y crecer según la evidencia.</p></div>
+</section>
+
+<section class="slide cover">
+<div class="kicker">Sabor Caribeño</div><h2>Conectar el talento culinario con nuevas experiencias.</h2>
+<p class="lead">Una propuesta digital que busca hacer más fácil descubrir, conocer y reservar.</p>
+<div class="tag">GRACIAS</div>
+</section>
+<div class="controls"><button id="prev" aria-label="Anterior">‹</button><span class="counter" id="counter">1 / 13</span><button id="next" aria-label="Siguiente">›</button></div>
+<div class="progress" id="progress"></div>
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let current=0;
+function show(){slides.forEach((s,i)=>s.classList.toggle('active',i===current));document.getElementById('counter').textContent=(current+1)+' / '+slides.length;document.getElementById('prev').disabled=current===0;document.getElementById('next').disabled=current===slides.length-1;document.getElementById('progress').style.width=((current+1)/slides.length*100)+'%'}
+document.getElementById('prev').onclick=()=>{if(current>0){current--;show()}};
+document.getElementById('next').onclick=()=>{if(current<slides.length-1){current++;show()}};
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();if(current<slides.length-1){current++;show()}}if(e.key==='ArrowLeft'&&current>0){current--;show()}});
+show();
+</script>
+</body></html>
