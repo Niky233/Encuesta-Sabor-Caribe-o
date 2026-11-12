@@ -536,19 +536,14 @@ button {
 </footer>
 
 
+
 <script>
-const SUPABASE_URL = 'PEGA_AQUI_TU_API_URL';
-const SUPABASE_KEY = 'PEGA_AQUI_TU_PUBLISHABLE_KEY';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBOXEWDHNpM04U8VI6UCg9b_vGWGBr8HsM0qvgVXLrSPZryckIhDi1hkbponb9-ivE/exec';
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-const form = document.getElementById('surveyForm');
-const steps = document.querySelectorAll('.step');
+const form = document.getElementById('encuesta');
+const steps = document.querySelectorAll('.question-step');
 const progress = document.getElementById('progress');
-const progressLabel = document.getElementById('progressLabel');
+const stepLabel = document.getElementById('step-label');
 const percentage = document.getElementById('percentage');
 const back = document.getElementById('back');
 const next = document.getElementById('next');
@@ -565,12 +560,12 @@ function showStep() {
 
   progress.style.width = percent + '%';
   percentage.textContent = percent + '%';
-  progressLabel.textContent =
-    `Pregunta ${current + 1} de ${steps.length}`;
+  stepLabel.textContent =
+    `PREGUNTA ${String(current + 1).padStart(2, '0')} DE 10`;
 
-  back.style.display = current === 0 ? 'none' : 'inline-flex';
+  back.disabled = current === 0;
   next.textContent =
-    current === steps.length - 1 ? 'Enviar respuestas' : 'Continuar';
+    current === steps.length - 1 ? 'Enviar respuestas' : 'Continuar →';
 }
 
 function collectAnswers() {
@@ -592,24 +587,21 @@ function collectAnswers() {
 
 next.addEventListener('click', async () => {
   const activeStep = steps[current];
+
   const requiredFields = activeStep.querySelectorAll(
-    'input[required], textarea[required], select[required]'
+    'input[required]'
   );
 
   for (const field of requiredFields) {
-    if (field.type === 'radio' || field.type === 'checkbox') {
-      const group = activeStep.querySelectorAll(
+    if (field.type === 'radio') {
+      const selected = activeStep.querySelector(
         `input[name="${field.name}"]:checked`
       );
 
-      if (group.length === 0) {
+      if (!selected) {
         alert('Por favor, responde esta pregunta antes de continuar.');
         return;
       }
-    } else if (!field.value.trim()) {
-      alert('Por favor, completa esta pregunta antes de continuar.');
-      field.focus();
-      return;
     }
   }
 
@@ -624,25 +616,32 @@ next.addEventListener('click', async () => {
 
   const answers = collectAnswers();
 
-  const { error } = await supabaseClient
-    .from('Sabor Caribeño Encuestas.')
-    .insert([{ respuestas: answers }]);
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(answers)
+    });
 
-  if (error) {
-    console.error('Error al guardar:', error);
-    alert('No se pudieron guardar tus respuestas. Inténtalo nuevamente.');
+    form.style.display = 'none';
+    navigation.style.display = 'none';
+
+    document.getElementById('success').style.display = 'block';
+
+    progress.style.width = '100%';
+    percentage.textContent = '100%';
+    stepLabel.textContent = 'ENCUESTA COMPLETADA';
+
+  } catch (error) {
+    console.error(error);
+    alert('No se pudo enviar la respuesta. Inténtalo nuevamente.');
+
     next.disabled = false;
     next.textContent = 'Enviar respuestas';
-    return;
   }
-
-  form.style.display = 'none';
-  navigation.style.display = 'none';
-
-  document.getElementById('success').style.display = 'block';
-
-  progress.style.width = '100%';
-  percentage.textContent = '100%';
 });
 
 back.addEventListener('click', () => {
@@ -654,6 +653,7 @@ back.addEventListener('click', () => {
 
 showStep();
 </script>
+
 
 </body>
 </html>
